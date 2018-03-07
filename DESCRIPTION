@@ -1,0 +1,23 @@
+Package: aws.transcribe
+Type: Package
+Title: Client for AWS Transcribe
+Version: 0.1.1
+Date: 2018-03-07
+Authors@R: c(person("Thomas J.", "Leeper",
+                    role = c("aut", "cre"), 
+                    email = "thosjleeper@gmail.com",
+                    comment = c(ORCID = "0000-0003-4097-6326"))
+             )
+Description: Client for AWS Transcribe <https://aws.amazon.com/documentation/transcribe>, a cloud transcription service.
+License: GPL (>= 2)
+URL: https://github.com/cloudyr/aws.transcribe
+BugReports: https://github.com/cloudyr/aws.transcribe/issues
+Imports:
+    tools,
+    httr,
+    jsonlite,
+    aws.signature
+Suggests:
+    testthat,
+    aws.s3
+RoxygenNote: 5.0.1
