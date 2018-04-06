@@ -1,5 +1,6 @@
 #' @title Execute AWS Transcribe API Request
 #' @description This is the workhorse function to execute calls to the Transcribe API.
+#' @param action A character string specifying an API endpoint.
 #' @param query An optional named list containing query string parameters and their character values.
 #' @param body A request body
 #' @param version A character string specifying the API version.
@@ -12,19 +13,21 @@
 #' @details This function constructs and signs an Polly API request and returns the results thereof, or relevant debugging information in the case of error.
 #' @author Thomas J. Leeper
 #' @import httr
-#' @import tuneR
 #' @importFrom jsonlite fromJSON toJSON
 #' @importFrom aws.signature signature_v4_auth
 #' @export
 transcribeHTTP <- 
-function(query = list(),
-         body = NULL,
-         version = "v1",
-         region = NULL, 
-         key = NULL, 
-         secret = NULL, 
-         session_token = NULL,
-         ...) {
+function(
+  action,
+  query = list(),
+  body = NULL,
+  version = "v1",
+  region = NULL, 
+  key = NULL, 
+  secret = NULL, 
+  session_token = NULL,
+  ...
+) {
     d_timestamp <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC")
     if (is.null(region) || region == "") {
         region <- "us-east-1"
@@ -35,15 +38,19 @@ function(query = list(),
            region = region,
            service = "transcribe",
            verb = "POST",
-           action = "",
+           action = "/",
            query_args = query,
            canonical_headers = list(host = paste0("transcribe.",region,".amazonaws.com"),
-                                    `x-amz-date` = d_timestamp),
+                                    "x-amz-date" = d_timestamp,
+                                    "X-Amz-Target" = paste0("Transcribe.", action),
+                                    "Content-Type" = "application/x-amz-json-1.1"),
            request_body = if (is.null(body)) "" else toJSON(body, auto_unbox = TRUE),
            key = key, 
            secret = secret,
            session_token = session_token)
     headers <- list()
+    headers[["X-Amz-Target"]] <- paste0("Transcribe.", action)
+    headers[["Content-Type"]] <- "application/x-amz-json-1.1"
     headers[["x-amz-date"]] <- d_timestamp
     headers[["x-amz-content-sha256"]] <- Sig$BodyHash
     if (!is.null(session_token) && session_token != "") {

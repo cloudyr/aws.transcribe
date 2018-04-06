@@ -5,6 +5,7 @@
 #' @param token Optionally, a \dQuote{NextToken} indicating the next result to retrieve (for pagination).
 #' @param \dots Additional arguments passed to \code{\link{transcribeHTTP}}.
 #' @return A list.
+#' @examples
 #' \dontrun{
 #' list_transcriptions("COMPLETED")
 #' }
@@ -24,5 +25,5 @@ function(
     if (!is.null(token)) {
         bod$NextToken <- token
     }
-    transcribeHTTP(query = list(Action = "ListTranscriptionJobs"), body = bod, ...)
+    transcribeHTTP(action = "ListTranscriptionJobs", body = bod, ...)$TranscriptionJobSummaries
 }

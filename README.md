@@ -43,10 +43,21 @@ t1 <- start_transcription("aws-transcribe-example", "https://s3.amazonaws.com/ra
 
 Then, wait for the transcription to complete and retrieve it by name using `get_transcription()`:
 
-```{r}
+
+```r
 library("aws.transcribe")
 t1 <- get_transcription("aws-transcribe-example")
 cat(strwrap(t1$Transcriptions[1L], 60), sep = "\n")
+```
+
+```
+## Hi, everybody, i'm randall and i wanted to show off some of
+## the new features an amazon transcribe, and i'm cool like
+## noel with the cake quote, what do you do a minute here ?
+## Work for boeing satellite. Whoa, that's awesome. Are you
+## excited for reading twenty nineteen ? Yes, i can't wait to
+## meet everyone of aids. Are you excited for the musical
+## guest, who is identity ? I have no idea, but i'm not sure.
 ```
 
 That's it!

@@ -36,5 +36,5 @@ function(
         bod$MediaSampleRateHertz <- hertz
     }
     bod$TranscriptionJobName <- name
-    transcribeHTTP(query = list(Action = "GetTranscriptionJob"), body = bod, ...)
+    transcribeHTTP(action = "StartTranscriptionJob", body = bod, ...)
 }
