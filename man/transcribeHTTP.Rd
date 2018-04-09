@@ -33,7 +33,7 @@ If successful, a named list. Otherwise, a data structure of class \dQuote{aws-er
 This is the workhorse function to execute calls to the Transcribe API.
 }
 \details{
-This function constructs and signs an Polly API request and returns the results thereof, or relevant debugging information in the case of error.
+This function constructs and signs an Transcribe API request and returns the results thereof, or relevant debugging information in the case of error.
 }
 \author{
 Thomas J. Leeper

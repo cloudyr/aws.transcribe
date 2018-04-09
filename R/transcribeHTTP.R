@@ -10,7 +10,7 @@
 #' @param session_token Optionally, a character string containing an AWS temporary Session Token. If missing, defaults to value stored in environment variable \dQuote{AWS_SESSION_TOKEN}.
 #' @param ... Additional arguments passed to \code{\link[httr]{GET}}.
 #' @return If successful, a named list. Otherwise, a data structure of class \dQuote{aws-error} containing any error message(s) from AWS and information about the request attempt.
-#' @details This function constructs and signs an Polly API request and returns the results thereof, or relevant debugging information in the case of error.
+#' @details This function constructs and signs an Transcribe API request and returns the results thereof, or relevant debugging information in the case of error.
 #' @author Thomas J. Leeper
 #' @import httr
 #' @importFrom jsonlite fromJSON toJSON
