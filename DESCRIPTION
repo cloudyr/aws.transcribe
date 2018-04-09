@@ -1,6 +1,6 @@
 Package: aws.transcribe
 Type: Package
-Title: Client for AWS Transcribe
+Title: Client for 'AWS Transcribe'
 Version: 0.1.2
 Date: 2018-04-09
 Authors@R: c(person("Thomas J.", "Leeper",
