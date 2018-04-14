@@ -2,12 +2,14 @@
 #' @description This is the workhorse function to execute calls to the Transcribe API.
 #' @param action A character string specifying an API endpoint.
 #' @param query An optional named list containing query string parameters and their character values.
+#' @param headers A list of headers to pass to the HTTP request.
 #' @param body A request body
 #' @param version A character string specifying the API version.
-#' @param region A character string containing an AWS region. If missing, the default \dQuote{us-east-1} is used.
-#' @param key A character string containing an AWS Access Key ID. The default is pulled from environment variable \dQuote{AWS_ACCESS_KEY_ID}.
-#' @param secret A character string containing an AWS Secret Access Key. The default is pulled from environment variable \dQuote{AWS_SECRET_ACCESS_KEY}.
-#' @param session_token Optionally, a character string containing an AWS temporary Session Token. If missing, defaults to value stored in environment variable \dQuote{AWS_SESSION_TOKEN}.
+#' @param verbose A logical indicating whether to be verbose. Default is given by \code{options("verbose")}.
+#' @param region A character string specifying an AWS region. See \code{\link[aws.signature]{locate_credentials}}.
+#' @param key A character string specifying an AWS Access Key. See \code{\link[aws.signature]{locate_credentials}}.
+#' @param secret A character string specifying an AWS Secret Key. See \code{\link[aws.signature]{locate_credentials}}.
+#' @param session_token Optionally, a character string specifying an AWS temporary Session Token to use in signing a request. See \code{\link[aws.signature]{locate_credentials}}.
 #' @param ... Additional arguments passed to \code{\link[httr]{GET}}.
 #' @return If successful, a named list. Otherwise, a data structure of class \dQuote{aws-error} containing any error message(s) from AWS and information about the request attempt.
 #' @details This function constructs and signs an Transcribe API request and returns the results thereof, or relevant debugging information in the case of error.
@@ -19,19 +21,26 @@
 transcribeHTTP <- 
 function(
   action,
+  headers = list(),
   query = list(),
   body = NULL,
   version = "v1",
-  region = NULL, 
+  verbose = getOption("verbose", FALSE),
+  region = Sys.getenv("AWS_DEFAULT_REGION", "us-east-1"), 
   key = NULL, 
   secret = NULL, 
   session_token = NULL,
   ...
 ) {
+    # locate and validate credentials
+    credentials <- locate_credentials(key = key, secret = secret, session_token = session_token, region = region, verbose = verbose)
+    key <- credentials[["key"]]
+    secret <- credentials[["secret"]]
+    session_token <- credentials[["session_token"]]
+    region <- credentials[["region"]]
+    
+    # generate request signature
     d_timestamp <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC")
-    if (is.null(region) || region == "") {
-        region <- "us-east-1"
-    }
     url <- paste0("https://transcribe.",region,".amazonaws.com")
     Sig <- signature_v4_auth(
            datetime = d_timestamp,
@@ -44,21 +53,23 @@ function(
                                     "x-amz-date" = d_timestamp,
                                     "X-Amz-Target" = paste0("Transcribe.", action),
                                     "Content-Type" = "application/x-amz-json-1.1"),
-           request_body = if (is.null(body)) "" else toJSON(body, auto_unbox = TRUE),
+           request_body = if (is.null(body)) "" else jsonlite::toJSON(body, auto_unbox = TRUE),
            key = key, 
            secret = secret,
-           session_token = session_token)
-    headers <- list()
+           session_token = session_token,
+           verbose = verbose)
+    # setup request headers
     headers[["X-Amz-Target"]] <- paste0("Transcribe.", action)
     headers[["Content-Type"]] <- "application/x-amz-json-1.1"
     headers[["x-amz-date"]] <- d_timestamp
     headers[["x-amz-content-sha256"]] <- Sig$BodyHash
+    headers[["Authorization"]] <- Sig[["SignatureHeader"]]
     if (!is.null(session_token) && session_token != "") {
         headers[["x-amz-security-token"]] <- session_token
     }
-    headers[["Authorization"]] <- Sig[["SignatureHeader"]]
     H <- do.call(add_headers, headers)
-        
+    
+    # execute request
     if (length(query)) {
         r <- POST(url, H, query = query, body = body, encode = "json", ...)
     } else {
@@ -66,7 +77,7 @@ function(
     }
     
     if (http_error(r)) {
-        x <- fromJSON(content(r, "text", encoding = "UTF-8"))
+        x <- jsonlite::fromJSON(content(r, "text", encoding = "UTF-8"))
         warn_for_status(r)
         h <- headers(r)
         out <- structure(x, headers = h, class = "aws_error")
@@ -74,7 +85,7 @@ function(
         attr(out, "request_string_to_sign") <- Sig$StringToSign
         attr(out, "request_signature") <- Sig$SignatureHeader
     } else {
-        out <- try(fromJSON(content(r, "text", encoding = "UTF-8")), silent = TRUE)
+        out <- try(jsonlite::fromJSON(content(r, "text", encoding = "UTF-8")), silent = TRUE)
         if (inherits(out, "try-error")) {
             out <- structure(content(r, "text", encoding = "UTF-8"), "unknown")
         }
