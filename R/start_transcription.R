@@ -18,8 +18,6 @@
 #' including the start time and end time of the item and alternative transcriptions of the item 
 #' including the confidence that Amazon Transcribe has in the transcription.
 #' You can't set both ShowSpeakerLabels and ChannelIdentification in the same requestto indicate whether channel.
-#' More info at 
-#' \code{\link{https://aws.amazon.com/about-aws/whats-new/2018/08/amazon_transcribe_can_now_identify_and_label_transcripts_based_on_audio_channels/}}.
 #' @param show_speaker_labels Optionally, boolean that determines whether the transcription job uses
 #' speaker recognition to identify different speakers in the input audio. 
 #' Speaker recognition labels individual speakers in the audio file. 

@@ -1,3 +1,7 @@
+# aws.transcribe 0.1.3
+
+* added optional parameters to `start_transcribe()` call.
+
 # aws.transcribe 0.1.2
 
 * Finish minimum working example.

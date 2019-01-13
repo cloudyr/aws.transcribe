@@ -5,7 +5,9 @@
 \title{Start AWS Transcribe Job}
 \usage{
 start_transcription(name, url, format = tools::file_ext(url),
-  language = "en-US", hertz = NULL, ...)
+  language = "en-US", hertz = NULL, output_bucket = NULL,
+  channel_identification = NULL, show_speaker_labels = NULL,
+  max_speaker_labels = NULL, vocabulary_name = NULL, ...)
 }
 \arguments{
 \item{name}{A character string specifying a unique name for the transcription job.}
@@ -17,6 +19,34 @@ start_transcription(name, url, format = tools::file_ext(url),
 \item{language}{A character string specifying a language code. Currently defaults to \dQuote{en-US}.}
 
 \item{hertz}{Optionally, a numeric value specifying sample rate in Hertz.}
+
+\item{output_bucket}{Optionally, The location where the transcription is stored. 
+If you set the OutputBucketName, Amazon Transcribe puts the transcription in the specified S3 bucket. 
+When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. 
+The S3 bucket must have permissions that allow Amazon Transcribe to put files in the bucket.
+If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, 
+a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. 
+Use this URL to download the transcription.}
+
+\item{channel_identification}{Optionally, a boolean that instructs Amazon Transcribe to process each audio channel 
+separately and then merge the transcription output of each channel into a single transcription.
+Amazon Transcribe also produces a transcription of each item detected on an audio channel, 
+including the start time and end time of the item and alternative transcriptions of the item 
+including the confidence that Amazon Transcribe has in the transcription.
+You can't set both ShowSpeakerLabels and ChannelIdentification in the same requestto indicate whether channel.}
+
+\item{show_speaker_labels}{Optionally, boolean that determines whether the transcription job uses
+speaker recognition to identify different speakers in the input audio. 
+Speaker recognition labels individual speakers in the audio file. 
+If you set the ShowSpeakerLabels field to true, you must also set 
+the maximum number of speaker labels MaxSpeakerLabels field.}
+
+\item{max_speaker_labels}{Optionally, a numeric value specifying he maximum number of speakers to identify in the input audio.
+If there are more speakers in the audio than this number, multiple speakers will be identified as a single speaker.
+If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.}
+
+\item{vocabulary_name}{Optionally, a string specifying the name of a vocabulary to use when processing the transcription job.
+Length Constraints: Minimum length of 1. Maximum length of 200. Pattern: `^[0-9a-zA-Z._-]+`}
 
 \item{\dots}{Additional arguments passed to \code{\link{transcribeHTTP}}.}
 }
