@@ -4,10 +4,11 @@ Title: Client for 'AWS Transcribe'
 Version: 0.1.2
 Date: 2018-04-09
 Authors@R: c(person("Thomas J.", "Leeper",
-                    role = c("aut", "cre"), 
+                    role = c("aut"), 
                     email = "thosjleeper@gmail.com",
                     comment = c(ORCID = "0000-0003-4097-6326"))
              )
+Maintainer: ORPHANED
 Description: Client for 'AWS Transcribe' <https://aws.amazon.com/documentation/transcribe>, a cloud transcription service that can convert an audio media file in English and other languages into a text transcript.
 License: GPL (>= 2)
 URL: https://github.com/cloudyr/aws.transcribe
