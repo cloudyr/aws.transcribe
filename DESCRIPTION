@@ -1,12 +1,16 @@
 Package: aws.transcribe
 Type: Package
 Title: Client for 'AWS Transcribe'
-Version: 0.1.2
-Date: 2018-04-09
+Version: 0.1.3
+Date: 2019-01-13
 Authors@R: c(person("Thomas J.", "Leeper",
                     role = c("aut"), 
                     email = "thosjleeper@gmail.com",
-                    comment = c(ORCID = "0000-0003-4097-6326"))
+                    comment = c(ORCID = "0000-0003-4097-6326")),
+             person("Laurens", "Geffert",
+                    role = c("aut"), 
+                    email = "laurensgeffert@gmail.com",
+                    comment = c(ORCID = "0000-0002-3307-268X"))
              )
 Maintainer: ORPHANED
 Description: Client for 'AWS Transcribe' <https://aws.amazon.com/documentation/transcribe>, a cloud transcription service that can convert an audio media file in English and other languages into a text transcript.
@@ -21,4 +25,4 @@ Imports:
 Suggests:
     testthat,
     aws.s3
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
