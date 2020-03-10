@@ -4,10 +4,19 @@
 \alias{transcribeHTTP}
 \title{Execute AWS Transcribe API Request}
 \usage{
-transcribeHTTP(action, headers = list(), query = list(), body = NULL,
-  version = "v1", verbose = getOption("verbose", FALSE),
-  region = Sys.getenv("AWS_DEFAULT_REGION", "us-east-1"), key = NULL,
-  secret = NULL, session_token = NULL, ...)
+transcribeHTTP(
+  action,
+  headers = list(),
+  query = list(),
+  body = NULL,
+  version = "v1",
+  verbose = getOption("verbose", FALSE),
+  region = Sys.getenv("AWS_DEFAULT_REGION", "us-east-1"),
+  key = NULL,
+  secret = NULL,
+  session_token = NULL,
+  ...
+)
 }
 \arguments{
 \item{action}{A character string specifying an API endpoint.}

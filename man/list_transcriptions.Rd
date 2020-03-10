@@ -4,8 +4,12 @@
 \alias{list_transcriptions}
 \title{List AWS Transcribe Jobs}
 \usage{
-list_transcriptions(status = c("COMPLETED", "IN_PROGRESS", "FAILED"),
-  n = NULL, token = NULL, ...)
+list_transcriptions(
+  status = c("COMPLETED", "IN_PROGRESS", "FAILED"),
+  n = NULL,
+  token = NULL,
+  ...
+)
 }
 \arguments{
 \item{status}{A character string specifying the status of jobs to retrieve. Use \code{\link{get_transcription}} to retrieve a specific transcription.}

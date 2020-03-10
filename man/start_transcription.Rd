@@ -4,8 +4,14 @@
 \alias{start_transcription}
 \title{Start AWS Transcribe Job}
 \usage{
-start_transcription(name, url, format = tools::file_ext(url),
-  language = "en-US", hertz = NULL, ...)
+start_transcription(
+  name,
+  url,
+  format = tools::file_ext(url),
+  language = "en-US",
+  hertz = NULL,
+  ...
+)
 }
 \arguments{
 \item{name}{A character string specifying a unique name for the transcription job.}
