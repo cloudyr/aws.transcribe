@@ -1,4 +1,4 @@
-# Package Template for the cloudyr project
+# R Client for the AWS Transcribe API
 
 [![CRAN](https://www.r-pkg.org/badges/version/aws.transcribe)](https://cran.r-project.org/package=aws.transcribe)
 ![Downloads](https://cranlogs.r-pkg.org/badges/aws.transcribe)
@@ -19,7 +19,7 @@ t1 <- start_transcription("aws-transcribe-example", "https://s3.amazonaws.com/ra
 
 Then, wait for the transcription to complete and retrieve it by name using `get_transcription()`:
 
-```{r}
+```R
 library("aws.transcribe")
 t1 <- get_transcription("aws-transcribe-example")
 cat(strwrap(t1$Transcriptions[1L], 60), sep = "\n")
