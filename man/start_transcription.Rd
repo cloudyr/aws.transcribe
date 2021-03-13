@@ -10,6 +10,12 @@ start_transcription(
   format = tools::file_ext(url),
   language = "en-US",
   hertz = NULL,
+  output_bucket = NULL,
+  channel_identification = NULL,
+  show_speaker_labels = NULL,
+  max_speaker_labels = NULL,
+  vocabulary_name = NULL,
+  more_settings = list(),
   ...
 )
 }
@@ -23,6 +29,18 @@ start_transcription(
 \item{language}{A character string specifying a language code. Currently defaults to \dQuote{en-US}.}
 
 \item{hertz}{Optionally, a numeric value specifying sample rate in Hertz.}
+
+\item{output_bucket}{Optionally, a character string specifying the output bucket to place the results of the Amazon Transcribe job in.}
+
+\item{channel_identification}{Optionally, a boolean which instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both \code{show_speaker_labels} and \code{channel_identification} in the same request.}
+
+\item{show_speaker_labels}{Optionally, a boolean specifying whether the transcription job uses speaker recognition to identify different speakers in the input audio. Speaker recognition labels individual speakers in the audio file. If you set the \code{show_speaker_labels} field to true, you must also set the maximum number of speaker labels \code{max_speaker_labels} field.}
+
+\item{max_speaker_labels}{Optionally, an integer specifying the maximum number of speakers to identify in the input audio. If there are more speakers in the audio than this number, multiple speakers are identified as a single speaker. If you specify the \code{max_speaker_labels} field, you must set the \code{show_speaker_labels} field to \code{TRUE}. Valid Range: Minimum value of 2. Maximum value of 10.}
+
+\item{vocabulary_name}{Optionally, a character string specifying the name of a vocabulary to use when processing the transcription job.}
+
+\item{more_settings}{Optionally, a list of additional settings to be passed to Amazon Transcribe.}
 
 \item{\dots}{Additional arguments passed to \code{\link{transcribeHTTP}}.}
 }
@@ -39,7 +57,7 @@ Start an AWS Transcribe job
 library("aws.s3")
 put_object(file = "recording.mp3", bucket = "my-bucket", object = "recording.mp3")
 
-## start trancription
+## start transcription
 start_transcription("first-example", "https://my-bucket.us-east-1.amazonaws.com/recording.mp3")
 }
 }
