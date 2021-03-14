@@ -1,4 +1,4 @@
-# Package Template for the cloudyr project
+# R Client for the AWS Transcribe API
 
 [![CRAN](https://www.r-pkg.org/badges/version/aws.transcribe)](https://cran.r-project.org/package=aws.transcribe)
 ![Downloads](https://cranlogs.r-pkg.org/badges/aws.transcribe)
